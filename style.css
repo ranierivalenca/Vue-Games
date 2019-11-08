@@ -1,0 +1,23 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transition: 0.1s linear;
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: absolute;
+}
+#game .surface {
+  position: absolute;
+  background: #333333;
+}
+#game .player {
+  position: absolute;
+  background: #ff6666;
+}
+
+/*# sourceMappingURL=style.css.map */

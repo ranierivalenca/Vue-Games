@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Running</title>
+  <script src="/vue.js"></script>
+  <link rel="stylesheet" href="/style.php?running">
+
+  <script src="running/js/Element.js"></script>
+  <script src="running/js/MoveableElement.js"></script>
+  <script src="running/js/Player.js"></script>
+  <script src="running/js/Viewport.js"></script>
+  <script src="running/js/Platform.js"></script>
+  <script src="running/js/Wall.js"></script>
+  <script src="running/js/World.js"></script>
+
+</head>
+<body>
+  <div id="game" tabindex="0"
+    v-on:keydown="keydown"
+    v-on:keyup="keyup"
+    :style="viewport.style()">
+    <div class="world">
+      <div v-for="surface in world.surfaces" class="surface" v-bind:style="viewport.styleFor(surface)"></div>
+      <div class="player" v-bind:style="viewport.styleFor(player)"></div>
+    </div>
+  </div>
+  <script src="running/game.js"></script>
+</body>
+</html>
