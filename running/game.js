@@ -7,7 +7,8 @@ let game = new Vue({
     player: world.player,
     viewport: world.viewport,
     keys: {},
-    frequency: 20,
+    frequency: 60,
+    time: 0,
 
     gameControl: {
       isJumping: false
@@ -52,8 +53,8 @@ let game = new Vue({
       if (shouldJump) {
         this.player.jump()
       }
-      // this.player.accelerateBy(1)
-      this.player.moveBy(movement[0] * 20)
+      this.player.accelerateBy(1)
+      // this.player.moveBy(movement[0] * 20)
     },
     gameLogic() {
       this.processInputs()
@@ -65,6 +66,7 @@ let game = new Vue({
       // }
       if (this.keys[' ']) {
       }
+      this.time++
     }
   }
 })

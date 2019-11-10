@@ -20,14 +20,16 @@ class MoveableElement extends Element {
   }
 
   fwx() {
+    let mv = this.maxVel()
     this.lastPos[0] = this.x
-    this.x += this.vel[0]
+    this.x += Math.max(Math.min(this.vel[0], mv[0]['max']), mv[0]['min'])
     return this
   }
 
   fwy() {
+    let mv = this.maxVel()
     this.lastPos[1] = this.y
-    this.y += this.vel[1]
+    this.y += Math.max(Math.min(this.vel[1], mv[1]['max']), mv[1]['min'])
     return this
   }
 
@@ -56,11 +58,32 @@ class MoveableElement extends Element {
     return this
   }
 
+  maxVel() {
+    let maxV = [
+      {
+        'min': -this.width,
+        'max': this.width
+      },
+      {
+        'min': -this.height,
+        'max': this.height
+      }
+    ]
+    return maxV
+  }
+
   updateVel() {
-    this.vel = this.vel.map((v, i) => v + this.acc[i])
-    this.vel[0] = this.vel[0] > this.width ? this.width : this.vel[0]
-    this.vel[0] = this.vel[0] < -this.width ? -this.width : this.vel[0]
-    this.vel[1] = this.vel[1] > this.height ? this.height : this.vel[1]
-    this.vel[1] = this.vel[1] < -this.height ? -this.height : this.vel[1]
+    this.vel = this.vel.map((v, i) => {
+      v = v + this.acc[i]
+
+      let mv = this.maxVel()
+      v = Math.min(v, mv[i]['max'])
+      v = Math.max(v, mv[i]['min'])
+      return v
+    })
+    // this.vel[0] = this.vel[0] > this.maxVel()[0] ? this.maxVel()[0] : this.vel[0]
+    // this.vel[0] = this.vel[0] < -this.maxVel()[0] ? -this.maxVel()[0] : this.vel[0]
+    // this.vel[1] = this.vel[1] > this.maxVel()[1] ? this.maxVel()[1] : this.vel[1]
+    // this.vel[1] = this.vel[1] < -this.maxVel()[1] ? -this.maxVel()[1] : this.vel[1]
   }
 }

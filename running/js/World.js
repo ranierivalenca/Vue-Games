@@ -8,7 +8,7 @@ class World {
   surfaces = []
   platforms = []
 
-  gravity = -4
+  gravity = -1
 
   constructor(window, w = Infinity, h = Infinity) {
     // this.width = Math.min(window.innerWidth, w)
@@ -40,13 +40,20 @@ class World {
     let vw = this.viewport.width
     let maxw = vw / 3
     let x = maxw * this.platforms.length
+    let y = 50 + Math.round(Math.random() * 200)
     for (let i = 0; i < n; i++) {
-      let y = 50 + Math.round(Math.random() * 200)
-      let w = maxw - 100 + Math.round(Math.random() * 100)
+      let w = maxw - 200 + Math.round(Math.random() * 200)
       let platform = new Platform(x, y, w)
       this.platforms.push(platform)
       this.surfaces.push(platform)
       x += maxw
+      if (y < 50) {
+        y += Math.round(Math.random() * 50)
+      } else if (y > 250) {
+        y -= Math.round(Math.random() * 50)
+      } else {
+        y += 50 - Math.round(Math.random() * 100)
+    }
     }
   }
 
@@ -109,7 +116,6 @@ class World {
       // console.log(element, dx, dy, collidedInX, collidedInY)
       if (collidedInX) {
         player.rwx(dx).stopx()
-        player.stopx()
       } else if (collidedInY) {
         player.rwy(dy).stopy()
       } else {
@@ -118,10 +124,37 @@ class World {
     })
   }
 
-  move() {
-    this.player.fw()
+  resolvePlayerXCollisions(collisionElements) {
+    let player = this.player
+    collisionElements.map(element => {
+      let dx = player.vel[0] > 0 ? player.coord('r') - element.coord('l') : player.coord('l') - element.coord('r')
+      player.rwx(dx).stopx()
+    })
+  }
+
+  resolvePlayerYCollisions(collisionElements) {
+    let player = this.player
+    collisionElements.map(element => {
+      let dy = player.vel[1] > 0 ? player.coord('t') - element.coord('b') : player.coord('b') - element.coord('t')
+      player.rwy(dy).stopy()
+    })
+  }
+
+  movex() {
+    this.player.fwx()
     let collisionElements = this.detectPlayerCollisions()
-    this.resolvePlayerCollisions(collisionElements)
+    this.resolvePlayerXCollisions(collisionElements)
+  }
+
+  movey() {
+    this.player.fwy()
+    let collisionElements = this.detectPlayerCollisions()
+    this.resolvePlayerYCollisions(collisionElements)
+  }
+
+  move() {
+    this.movex()
+    this.movey()
     this.player.updateVel()
     this.viewport.centralizeIn(this.player, this)
     this.adapt()
