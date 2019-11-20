@@ -7,14 +7,15 @@ class Player extends MoveableElement {
     super(10, 400, w, h);
     this.lastVelY = 0
     this.jumping = false
+    console.log(this.acc)
   }
 
   //override
   maxVel() {
     return [
       {
-        'min': 8,
-        'max': 8
+        'min': -10,
+        'max': 15
       },
       {
         'min': -10,
@@ -32,7 +33,9 @@ class Player extends MoveableElement {
 
   updateVel() {
     super.updateVel()
+    // this.acc[1] = Math.min(-1, -parseFloat((this.vel[0] / 3).toFixed(2)))
     // console.log(this.lastVelY, this.vel[1], this.vel[1] == this.lastVelY)
+    // console.log(this.vel[0], this.vel[1], this.acc[1])
     if (this.vel[1] == this.lastVelY && this.lastVelY != this.maxVel()[1]['min']) {
       this.jumping = false
     }

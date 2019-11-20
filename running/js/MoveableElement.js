@@ -59,7 +59,7 @@ class MoveableElement extends Element {
   }
 
   maxVel() {
-    let maxV = [
+    return [
       {
         'min': -this.width,
         'max': this.width
@@ -69,13 +69,11 @@ class MoveableElement extends Element {
         'max': this.height
       }
     ]
-    return maxV
   }
 
   updateVel() {
     this.vel = this.vel.map((v, i) => {
       v = v + this.acc[i]
-
       let mv = this.maxVel()
       v = Math.min(v, mv[i]['max'])
       v = Math.max(v, mv[i]['min'])

@@ -20,8 +20,14 @@
     v-on:keydown="keydown"
     v-on:keyup="keyup"
     :style="viewport.style()">
+    <div class="vel">
+      {{ player.vel[0].toFixed(4) }}
+    </div>
+    <div class="score">
+      {{ player.x.toFixed(0) }}
+    </div>
     <div class="world">
-      <div v-for="surface in world.surfaces" class="surface" v-bind:style="viewport.styleFor(surface)"></div>
+      <div v-for="surface in world.visibleSurfaces()" class="surface" v-bind:style="viewport.styleFor(surface)"></div>
       <div class="player" v-bind:style="viewport.styleFor(player)"></div>
     </div>
   </div>

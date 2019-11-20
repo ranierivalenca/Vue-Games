@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <label>cx: <input type="number" v-model="cx"></label>
+            <label>cy: <input type="number" v-model="cy"></label>
+            <label>r: <input type="number" v-model="r"></label>
+        </div>
+        <svg width="1200" height="200">
+            <circle :cx="cx" :cy="cy" :r="r" stroke="green" stroke-width="4" fill="yellow" />
+        </svg>
+    </div>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                cx: 600,
+                cy: 100,
+                r: 40,
+                frame: 0
+            },
+            created: function() {
+                window.requestAnimationFrame(() => {
+                    console.log('frame...')
+                });
+            },
+            mounted: function() {
+                setInterval(() => {
+                    this.movex(600 + Math.sin((this.frame++) * Math.PI / 45) * 500);
+                }, 1000/30);
+            },
+            methods: {
+                movex(pos) {
+                    this.cx = pos;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

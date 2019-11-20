@@ -17,6 +17,8 @@ let game = new Vue({
   mounted: function() {
     this.$el.focus()
     setInterval(this.loop, 1000 / this.frequency)
+    this.player.moveBy(3)
+    this.player.accelerateBy(0.001)
     // this.loop()
   },
   methods: {
@@ -53,12 +55,13 @@ let game = new Vue({
       if (shouldJump) {
         this.player.jump()
       }
-      this.player.accelerateBy(1)
       // this.player.moveBy(movement[0] * 20)
     },
     gameLogic() {
       this.processInputs()
       this.world.move()
+      // detect collisions
+      // resolve collisions
     },
     loop() {
       this.gameLogic()
@@ -66,6 +69,7 @@ let game = new Vue({
       // }
       if (this.keys[' ']) {
       }
+      // console.log(this.player.y)
       this.time++
     }
   }

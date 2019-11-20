@@ -8,7 +8,7 @@ class World {
   surfaces = []
   platforms = []
 
-  gravity = -1
+  gravity = -2
 
   constructor(window, w = Infinity, h = Infinity) {
     // this.width = Math.min(window.innerWidth, w)
@@ -32,28 +32,30 @@ class World {
 
   adapt() {
     if (this.platforms[this.platforms.length - 2].isVisibleOn(this.viewport)) {
-      this.addPlatforms(2)
+      this.addPlatforms(5)
     }
   }
 
   addPlatforms(n = 4) {
     let vw = this.viewport.width
-    let maxw = vw / 3
+    let maxw = vw / 5
     let x = maxw * this.platforms.length
-    let y = 50 + Math.round(Math.random() * 200)
     for (let i = 0; i < n; i++) {
-      let w = maxw - 200 + Math.round(Math.random() * 200)
-      let platform = new Platform(x, y, w)
-      this.platforms.push(platform)
-      this.surfaces.push(platform)
-      x += maxw
+      let last = this.platforms.slice(-1)[0]
+      let y = last ? last.y : 200
       if (y < 50) {
         y += Math.round(Math.random() * 50)
       } else if (y > 250) {
         y -= Math.round(Math.random() * 50)
       } else {
         y += 50 - Math.round(Math.random() * 100)
-    }
+      }
+      let w = maxw - (5 * this.player.vel[0]) + Math.round(Math.random() * 5 * this.player.vel[0])
+      // console.log(w)
+      let platform = new Platform(x, y, w)
+      this.platforms.push(platform)
+      this.surfaces.push(platform)
+      x += maxw
     }
   }
 
